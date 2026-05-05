@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <title>图书商城</title>
+    <style>
+        .icon:hover {
+            transform: rotate(360deg);
+            color: #409eff;
+        }
+
+        .icon {
+            display: inline-block;
+            font-size: 20px;
+            margin-left: 20px;
+            color: #fff;
+            cursor: pointer;
+            transition: transform 0.6s ease;
+            vertical-align: middle;
+        }
+
+        .cart-icon:hover {
+            transform: rotate(360deg);
+            color: #409eff;
+        }
+
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 22px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .close:hover {
+            color: red;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f5f5;
+        }
+
+        #loginBox,
+        #registerBox {
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            display: none;
+        }
+
+        .box {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 350px;
+            position: relative;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .input-box {
+            margin-bottom: 15px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background: linear-gradient(90deg, #409eff, #337ecc);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: linear-gradient(90deg, #337ecc, #409eff);
+            transform: scale(1.03);
+        }
+
+        .toggle {
+            text-align: center;
+            margin-top: 15px;
+            color: #666;
+        }
+
+        .toggle a {
+            color: #409eff;
+            text-decoration: none;
+        }
+
+        .toggle a:hover {
+            text-decoration: underline;
+        }
+
+        .logo-img {
+            height: 40px;
+            vertical-align: middle;
+            margin-left: 10px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Microsoft Yahei;
+            background: #f5f5f5;
+            padding-top: 70px;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: #2c3e50;
+            color: #fff;
+            line-height: 60px;
+            padding: 0 20px;
+            z-index: 999;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 30px;
+            font-weight: bold;
+            display: inline-block;
+            float: none;
+        }
+
+        .nav {
+            position: absolute;
+            right: 20px;
+            top: 0;
+        }
+
+        .nav a {
+            color: #fff;
+            text-decoration: none;
+            margin-left: 20px;
+            cursor: pointer;
+        }
+
+        .nav a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            width: 1000px;
+            margin: 20px auto;
+        }
+
+        .left {
+            width: 200px;
+            float: left;
+            background: #fff;
+            padding: 15px;
+            border: 1px solid #ddd;
+            margin-right: 20px;
+            position: relative;
+        }
+
+        .center {
+            width: 560px;
+            float: left;
+            background: #fff;
+            padding: 15px;
+            border: 1px solid #ddd;
+        }
+
+        .right {
+            width: 200px;
+            position: fixed;
+            right: 20px;
+            top: 80px;
+            background: #fff;
+            padding: 15px;
+            border: 1px solid #ddd;
+        }
+
+        .book-item {
+            width: 30%;
+            float: left;
+            text-align: center;
+            padding: 10px;
+            margin: 5px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .book-item:hover .book-img {
+            transform: translateX(5px) scale(1.05);
+            box-shadow: 0 8px 20px rgba(193, 24, 24, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .book-tag {
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: red;
+            color: #fff;
+            font-size: 12px;
+            padding: 2px 5px;
+            display: none;
+        }
+
+        .book-item:hover .book-tag {
+            display: block;
+        }
+
+        .book-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 3px;
+            margin-bottom: 8px;
+        }
+
+        .hot-item {
+            float: left;
+            width: 30%;
+            text-align: center;
+            margin: 5px;
+        }
+
+        .hot-item:hover .hot-img {
+            transform: translateX(5px) scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .hot-img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 3px;
+            margin-bottom: 8px;
+            transition: all 0.3s ease;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        td,
+        th {
+            border: 1px solid #ccc;
+            padding: 6px;
+            text-align: center;
+        }
+
+        .clear {
+            clear: both;
+        }
+
+        .table-img {
+            width: 80px;
+            height: 100px;
+            object-fit: cover;
+            display: block;
+            margin: 5px auto;
+        }
+
+        .carousel {
+        position: relative;
+        height: 750px;
+        overflow: hidden;
+        margin: 15px 0;
+        border-radius: 4px;
+    }
+
+        .carousel-item {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        .carousel-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+        @keyframes slideVertical {
+            0% {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+
+            10% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+
+            16.66% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+
+            26.66% {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+
+            100% {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+        }
+
+        .carousel-item {
+    animation: slideVertical 6s linear infinite;
+}
+.carousel-item:nth-child(1) {
+    animation-delay: 0s;
+}
+.carousel-item:nth-child(2) {
+    animation-delay: 2s; 
+}
+.carousel-item:nth-child(3) {
+    animation-delay: 4s;
+}
+    </style>
+</head>
+
+<body>
+    <div class="box" id="loginBox">
+        <span class="close" onclick="closeBox()">×</span>
+        <h2>登录</h2>
+        <form action="#" method="post">
+            <div class="input-box">
+                <input type="text" placeholder="用户名" required>
+            </div>
+            <div class="input-box">
+                <input type="password" placeholder="密码" required>
+            </div>
+            <button type="submit">登录</button>
+        </form>
+        <div class="toggle">
+            没有账号？<a href="javascript:switchBox()">去注册</a>
+        </div>
+    </div>
+
+    <div class="box" id="registerBox" style="display: none;">
+        <span class="close" onclick="closeBox()">×</span>
+        <h2>注册</h2>
+        <form action="#" method="post">
+            <div class="input-box">
+                <input type="text" placeholder="用户名" required>
+            </div>
+            <div class="input-box">
+                <input type="password" placeholder="密码" required>
+            </div>
+            <div class="input-box">
+                <input type="password" placeholder="确认密码" required>
+            </div>
+            <button type="submit">注册</button>
+        </form>
+        <div class="toggle">
+            已有账号？<a href="javascript:switchBox()">去登录</a>
+        </div>
+    </div>
+
+
+    <div class="header">
+        <div class="logo">图书商城<img
+                src="https://tse4-mm.cn.bing.net/th/id/OIP-C.FQdWwvnsRWzPo70jqJmjeQHaHa?w=181&h=181&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3"
+                class="logo-img" alt="Logo"></div>
+        <div class="nav">
+            <a href="#"><span class="icon">🔍</span>搜索</a>
+            <a href="#"><span class="icon">🛒</span>购物车</a>
+            <a href="#">首页</a>
+            <a href="#">分类</a>
+            <a href="#">新书</a>
+            <a href="#">关于</a>
+            <a onclick="showLogin()">登录</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="left">
+            <h4>图书分类</h4>
+            <ul class="category">
+                <li><a href="#">小说文学</a></li>
+                <li><a href="#">历史传记</a></li>
+                <li><a href="#">编程开发</a></li>
+                <li><a href="#">少儿读物</a></li>
+                <li><a href="#">考试用书</a></li>
+            </ul>
+        </div>
+
+        <div class="center">
+            <div class="carousel">
+                <div class="carousel-item"><img src="https://univs-news-1256833609.file.myqcloud.com/zmt/a81b1842631a4d8d87e08ac739da50f2.jpg"></div>
+                <div class="carousel-item"><img
+                        src="https://pic2.zhimg.com/v2-cc81302792fc013a87ba4a366589b051_b.jpg"></div>
+                <div class="carousel-item"><img src="https://y.zdmimg.com/202105/10/6098e222ac3529342.jpg_e1080.jpg"></div>
+                
+            </div>
+            <h4>图书展示</h4>
+            <div class="book-item">
+                <div class="book-tag">热销</div>
+                <img src="https://tse4-mm.cn.bing.net/th/id/OIP-C.ZChdE7a_kkOvTx1aH2NBRwHaKb?w=126&h=180&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3"
+                    class="book-img" alt="C++ Primer">
+                <p>《C++ Primer》</p>
+            </div>
+            <div class="book-item">
+                <img src="https://tse2-mm.cn.bing.net/th/id/OIP-C.BCB7M29Hlaqdb_SLd6Cn_QHaJ9?w=141&h=189&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3"
+                    class="book-img" alt="Python教程">
+                <p>《Python教程》</p>
+            </div>
+            <div class="book-item">
+                <img src="https://tse4-mm.cn.bing.net/th/id/OIP-C.SKxqdjg1JKlHOWbRAnzMlAHaHa?w=171&h=180&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3"
+                    class="book-img" alt="HTML入门">
+                <p>《HTML入门》</p>
+            </div>
+            <div class="clear"></div>
+
+            <h4>热门推荐</h4>
+            <div class="hot-item">
+                <img src="https://tse1-mm.cn.bing.net/th/id/OIP-C.MKfjKDrPClR8YERcnjzNrQHaHa?w=178&h=180&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3"
+                    class="hot-img" alt="活着">
+                <p>《活着》</p>
+            </div>
+            <div class="hot-item">
+                <img src="https://tse2-mm.cn.bing.net/th/id/OIP-C.SiJFc1WgXQtGqkRxcvKPPgHaKv?w=121&h=180&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3"
+                    class="hot-img" alt="三体">
+                <p>《三体》</p>
+            </div>
+            <div class="hot-item">
+                <img src="https://tse3-mm.cn.bing.net/th/id/OIP-C.48aBIwq3iqVL3GF6vAQ_mAHaHa?w=211&h=211&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3"
+                    class="hot-img" alt="平凡世界">
+                <p>《平凡世界》</p>
+            </div>
+            <div class="clear"></div>
+
+            <h4>新书上市</h4>
+            <table>
+                <tr>
+                    <th>书名</th>
+                    <th>价格</th>
+                </tr>
+                <tr>
+                    <td><img src="https://www0.kfzimg.com/sw/kfz-cos/kfzimg/fecffbad/06bcab8071695fba_n.jpg"
+                            class="table-img">《你当像鸟飞往你的山》</td>
+                    <td>59元</td>
+                </tr>
+                <tr>
+                    <td><img src="https://picx.zhimg.com/v2-85f6b77a99bb19e8d7443752093ac1c1_720w.jpg?source=172ae18b"
+                            class="table-img">《追风筝的人》</td>
+                    <td>45元</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="right">
+            <h2>促销信息</h2>
+            <p>满100减20</p>
+            <p>新用户立减10元</p>
+            <p>包邮活动进行中</p>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div id="mask"></div>
+
+    <script>
+        function closeBox() {
+            document.getElementById('loginBox').style.display = 'none';
+            document.getElementById('registerBox').style.display = 'none';
+        }
+        function showLogin() {
+            document.getElementById('loginBox').style.display = 'block';
+            document.getElementById('registerBox').style.display = 'none';
+        }
+        function switchBox() {
+            let login = document.getElementById('loginBox');
+            let register = document.getElementById('registerBox');
+            if (login.style.display === 'none') {
+                login.style.display = 'block';
+                register.style.display = 'none';
+            } else {
+                login.style.display = 'none';
+                register.style.display = 'block';
+            }
+        }
+
+        function register(e) {
+            e.preventDefault();
+            let uname = document.getElementById("regName").value;
+            let pwd = document.getElementById("regPwd").value;
+            let pwd2 = document.getElementById("regPwd2").value;
+
+            if (pwd != pwd2) {
+                alert("两次密码不一致！");
+                return;
+            }
+            // 存入本地存储
+            localStorage.setItem("username", uname);
+            localStorage.setItem("password", pwd);
+            alert("注册成功，信息已保存本地！");
+            switchBox();
+        }
+
+        function login(e) {
+            e.preventDefault();
+            let uname = document.getElementById("loginName").value;
+            let pwd = document.getElementById("loginPwd").value;
+
+            let saveName = localStorage.getItem("username");
+            let savePwd = localStorage.getItem("password");
+
+            if (uname == saveName && pwd == savePwd) {
+                alert("登录验证成功！");
+                closeBox();
+            } else {
+                alert("用户名或密码错误！");
+            }
+        }
+    </script>
+</body>
+
+</html>
